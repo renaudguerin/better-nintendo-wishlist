@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Better Wishlist for Nintendo eShop — Options</title>
+  <link rel="stylesheet" href="options.css">
+  <script src="settings.js" defer></script>
+  <script src="options.js" defer></script>
+</head>
+<body>
+  <main>
+    <header>
+      <p class="eyebrow">Extension options</p>
+      <h1>Better Wishlist for Nintendo eShop</h1>
+      <p class="lede">Choose how wishlist items and sale timing appear.</p>
+    </header>
+
+    <section aria-labelledby="settings-heading">
+      <h2 id="settings-heading">Settings</h2>
+      <label class="check-row" for="show-cross-region">
+        <input id="show-cross-region" type="checkbox">
+        <span>
+          <strong>Show unavailable or other-region items</strong>
+          <small>Where supported, the extension checks a bounded set of regional Nintendo catalogues.</small>
+        </span>
+      </label>
+      <label class="field-row" for="sale-urgency-days">
+        <span>
+          <strong>Sale ending soon</strong>
+          <small>Highlight sales ending within this many days.</small>
+        </span>
+        <select id="sale-urgency-days"></select>
+      </label>
+      <label class="field-row" for="theme">
+        <span>
+          <strong>Theme</strong>
+          <small>Follow your system appearance or choose a fixed light or dark theme.</small>
+        </span>
+        <select id="theme">
+          <option value="system">System</option>
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
+      </label>
+      <p id="save-status" class="save-status" role="status" aria-live="polite"></p>
+    </section>
+
+    <section aria-labelledby="privacy-heading">
+      <h2 id="privacy-heading">Privacy</h2>
+      <p>This extension has no telemetry and no background processing.</p>
+      <p>It reads wishlist and catalogue information from Nintendo to display your wishlist. On US pages, it reads existing Nintendo sign-in/session information from the Nintendo page only to authenticate wishlist requests sent to Nintendo; it does not copy or persist that information in extension settings or send it to the developer. On supported Europe and US pages, when you confirm a removal, it sends that wishlist removal to Nintendo. When you choose a Review search, the item title and platform are sent to Google Search. Choosing the project link below navigates to GitHub.</p>
+    </section>
+
+    <section aria-labelledby="about-heading">
+      <h2 id="about-heading">About</h2>
+      <p>Version <span id="extension-version">unknown</span></p>
+      <p><a id="project-link" href="https://github.com/renaudguerin/better-nintendo-wishlist">View the public project on GitHub</a></p>
+      <p class="legal">This is an independent project and is not affiliated with, endorsed by, or sponsored by Nintendo. Nintendo and Nintendo eShop are trademarks of Nintendo.</p>
+    </section>
+  </main>
+</body>
+</html>

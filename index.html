@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Better Wishlist for Nintendo eShop</title>
+<meta name="description" content="A Chrome extension that adds search, filters, sorting, and sale timing to your Nintendo eShop wishlist.">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #fbfbfc;
+    --surface: #fff;
+    --text: #1d2127;
+    --muted: #5c6675;
+    --border: #e0e4ea;
+    --link: #2f5480;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #12151a;
+      --surface: #191d24;
+      --text: #e9edf3;
+      --muted: #a3aebd;
+      --border: #2d353f;
+      --link: #93bdf0;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 0 20px 80px;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+  main { max-width: 46rem; margin: 0 auto; }
+  header { padding: 72px 0 36px; }
+  h1 { margin: 0 0 12px; font-size: clamp(30px, 6vw, 44px); line-height: 1.1; letter-spacing: -0.02em; }
+  .tagline { margin: 0; font-size: 19px; color: var(--muted); }
+  h2 { margin: 44px 0 14px; font-size: 20px; }
+  a { color: var(--link); }
+  ul { padding-left: 1.25em; }
+  li { margin: 9px 0; }
+  .status {
+    display: inline-block;
+    margin: 20px 0 0;
+    padding: 7px 13px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--muted);
+    font-size: 13.5px;
+  }
+  table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 15px; }
+  th, td { padding: 10px 12px; border-bottom: 1px solid var(--border); text-align: left; }
+  th { color: var(--muted); font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; }
+  code {
+    padding: 1px 5px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--surface);
+    font-size: 13.5px;
+  }
+  .links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+  .links a {
+    padding: 10px 16px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .links a:hover { border-color: var(--link); }
+  .note { margin-top: 16px; color: var(--muted); font-size: 14px; }
+  footer {
+    margin-top: 60px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 14px;
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Better Wishlist for Nintendo eShop</h1>
+    <p class="tagline">Search, filter, and sort your Nintendo eShop wishlist — and catch the
+    sales before they end.</p>
+    <p class="status">Preparing for the Chrome Web Store</p>
+  </header>
+
+  <p>Nintendo&rsquo;s wishlist page gives you one long list and no way through it. Once
+  you&rsquo;ve saved a few dozen games, finding anything &mdash; or noticing that something
+  you wanted is on sale and about to go back up &mdash; means scrolling and squinting.</p>
+
+  <p>This extension adds a proper management view to that page, on Nintendo&rsquo;s own
+  site. Nothing to sign into, nothing to sync, no second wishlist to maintain.</p>
+
+  <h2>What you get</h2>
+  <ul>
+    <li><strong>Search</strong> by game title</li>
+    <li><strong>Filters</strong> for sale, platform, and content type &mdash; games, DLC, or
+      bundles</li>
+    <li><strong>Sorting</strong> by name, price, discount, release date, date added, or sale
+      ending soonest, remembered per store</li>
+    <li><strong>Sale-ending warnings</strong>, with a window you choose</li>
+    <li><strong>Removal</strong> of one game or several at once, always after an explicit
+      confirmation</li>
+    <li><strong>Light, dark, or system theme</strong></li>
+  </ul>
+
+  <h2>Supported stores</h2>
+  <table>
+    <thead><tr><th>Store</th><th>Address</th></tr></thead>
+    <tbody>
+      <tr><td>Europe</td><td><code>ec.nintendo.com/my/wishlist</code></td></tr>
+      <tr><td>United States</td><td><code>nintendo.com/us/wish-list</code></td></tr>
+    </tbody>
+  </table>
+
+  <h2>Privacy</h2>
+  <p>No analytics, no telemetry, no advertising, no background process, no remote code, and
+  no server operated by the developer. Your settings stay in your browser. One permission,
+  <code>storage</code>, and it runs only on the two addresses above.</p>
+  <p><a href="privacy.html">Read the full privacy policy</a></p>
+
+  <h2>Links</h2>
+  <div class="links">
+    <a href="https://github.com/renaudguerin/better-nintendo-wishlist">Source on GitHub</a>
+    <a href="https://github.com/renaudguerin/better-nintendo-wishlist/issues">Report a bug</a>
+  </div>
+  <p class="note">Every feature is free. There is no paid tier and no payment of any kind in
+  this release.</p>
+
+  <footer>
+    <p>An independent project. Not affiliated with, endorsed by, or sponsored by Nintendo.
+    Nintendo and Nintendo eShop are trademarks of Nintendo.</p>
+  </footer>
+</main>
+</body>
+</html>

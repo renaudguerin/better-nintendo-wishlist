@@ -1,0 +1,44 @@
+{
+  "manifest_version": 3,
+  "name": "Better Wishlist for Nintendo eShop",
+  "version": "1.4.0",
+  "description": "Adds filtering and sorting controls to supported Nintendo eShop wishlist pages.",
+  "permissions": ["storage"],
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://ec.nintendo.com/my/wishlist*"],
+      "css": ["content.css", "eu-native.css"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://ec.nintendo.com/my/wishlist*"],
+      "js": ["bridge.js"],
+      "run_at": "document_idle",
+      "world": "MAIN"
+    },
+    {
+      "matches": ["https://ec.nintendo.com/my/wishlist*"],
+      "js": ["shared.js", "settings.js", "adapter-core.js", "eu-adapter.js", "content.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://www.nintendo.com/us/wish-list/*"],
+      "css": ["content.css", "us-native.css"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://www.nintendo.com/us/wish-list/*"],
+      "js": ["shared.js", "settings.js", "adapter-core.js", "us-adapter.js", "content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}
