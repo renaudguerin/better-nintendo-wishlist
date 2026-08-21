@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Better Wishlist for Nintendo eShop",
-  "version": "1.4.0",
-  "description": "Adds filtering and sorting controls to supported Nintendo eShop wishlist pages.",
+  "version": "1.0.0",
+  "description": "Search, filter, sort, and remove games from Nintendo eShop wishlists in Europe and the US.",
   "permissions": ["storage"],
   "options_ui": {
     "page": "options.html",
@@ -36,8 +36,15 @@
       "run_at": "document_idle"
     }
   ],
+  "web_accessible_resources": [
+    {
+      "resources": ["options.html"],
+      "matches": ["https://ec.nintendo.com/*", "https://www.nintendo.com/*"]
+    }
+  ],
   "icons": {
     "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
   }

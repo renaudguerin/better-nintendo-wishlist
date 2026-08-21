@@ -71,17 +71,15 @@
 <main>
   <header>
     <h1>Privacy Policy</h1>
-    <p class="meta">Better Wishlist for Nintendo eShop &middot; Effective 11 August 2026</p>
+    <p class="meta">Better Wishlist for Nintendo eShop &middot; Effective 12 August 2026</p>
   </header>
 
-  <p class="lede">This extension collects nothing about you. It has no analytics, no
-  telemetry, no advertising, no background process, no remote code, and no server operated
-  by the developer.</p>
+  <p class="lede">The developer receives no personal data from the extension. It has no
+  analytics, telemetry, advertising, background worker, or remote code.</p>
 
   <div class="callout">
-    <p><strong>There is no developer-operated server.</strong> Nothing you do in this
-    extension is sent to the developer, because there is nowhere for it to be sent. Your
-    settings never leave your browser.</p>
+    <p><strong>The developer operates no server for this extension.</strong> Your settings
+    stay in your browser, and the extension sends nothing to the developer.</p>
   </div>
 
   <h2>What the extension does with your data</h2>
@@ -90,29 +88,23 @@
   <p>On supported Nintendo wishlist pages, the extension reads your wishlist and the related
   catalogue information from Nintendo so it can display your list with search, filters, and
   sorting.</p>
-  <p>On US pages, it reads the sign-in session that already exists in the Nintendo page, and
-  uses it only to authenticate wishlist requests sent to Nintendo. It does not copy that
-  session information into extension settings, store it, or transmit it anywhere else.</p>
+  <p>On both supported storefronts, it uses the sign-in session already open in the Nintendo
+  page to authenticate wishlist requests sent to Nintendo. It does not persist session data
+  in extension settings or send it to the developer.</p>
   <p>When you confirm a removal, the extension sends that removal to Nintendo, in the same
-  way the Nintendo page itself would. Removals are never automatic and always require an
-  explicit confirmation from you.</p>
+  way the Nintendo page itself would. The extension asks you to confirm every removal.</p>
 
   <h3>Google Search</h3>
-  <p>If you choose the &ldquo;Review&rdquo; link on a game, a Google Search opens in a new
+  <p>If you choose &ldquo;Search reviews&rdquo; on a game, a Google Search opens in a new
   tab containing that game&rsquo;s title and, where known, its platform. This only happens
   when you click it.</p>
 
-  <h3>GitHub</h3>
-  <p>The options page links to this project&rsquo;s public repository on GitHub. It is an
-  ordinary link: nothing is sent unless you choose to go there.</p>
-
-  <h2>Payments</h2>
-  <p>There are none. This release contains no paid tier, no donation link, and no payment
-  destination of any kind. The extension never requests, displays, or handles payment
-  details. Every feature is free.</p>
+  <h3>Project links</h3>
+  <p>The extension header links to this project site. The options page links to the public
+  repository on GitHub. Neither link opens until you choose it.</p>
 
   <h2>What is stored on your device</h2>
-  <p>Everything the extension saves stays in your own browser.</p>
+  <p>The extension saves these settings in your browser:</p>
   <ul>
     <li>Extension settings are stored in your browser&rsquo;s extension storage as
       <code>nwm_settings_v1_showCrossRegion</code>,
@@ -122,14 +114,12 @@
       <code>localStorage</code>, under <code>nwm_preferences</code>. Because this storage is
       tied to the site, your European and US preferences stay separate.</li>
   </ul>
-  <p>These values are never transmitted anywhere. Removing the extension removes its
-  settings.</p>
+  <p>The extension does not transmit these values to the developer or any third party.</p>
 
   <h2>Permissions</h2>
-  <p>The extension requests a single permission, <code>storage</code>, which is what lets it
-  remember your settings between visits. It runs only on the supported Nintendo wishlist
-  addresses and has no access to any other site you visit. It has no background worker and
-  does not download or execute code from the internet.</p>
+  <p>The <code>storage</code> permission lets the extension remember your settings between
+  visits. Its site access is limited to the supported Nintendo wishlist addresses. It has no
+  background worker and does not download or execute code from the internet.</p>
 
   <h2>Third parties</h2>
   <p>Nintendo, Google, GitHub, and your browser each handle data under their own privacy
@@ -137,15 +127,15 @@
   extension itself.</p>
 
   <h2>Children</h2>
-  <p>The extension is a convenience layer over a page you are already signed in to. It
-  collects no personal information from anyone, including children.</p>
+  <p>The extension runs on a Nintendo page you are already signed in to. The developer
+  receives no personal information from anyone, including children.</p>
 
   <h2>Changes</h2>
   <p>If this policy changes, the revised version will be published on this page with a new
   effective date. Material changes will also be noted in the extension&rsquo;s changelog.</p>
 
   <h2>Contact</h2>
-  <p>Questions about privacy, or anything else, are best raised as an issue on the
+  <p>For privacy questions, bug reports, or other help, open an issue on the
   <a href="https://github.com/renaudguerin/better-nintendo-wishlist/issues">public project
   tracker</a>.</p>
 

@@ -293,7 +293,9 @@
     for (const key of keys) {
       const value = salesStatusValue(statuses, key);
       if (!value) continue;
-      const normalized = value.toLowerCase();
+      // Savanna spells the enum `PRE_ORDER`; separators are dropped so both
+      // that and a bare `PREORDER` land on the canonical value.
+      const normalized = value.toLowerCase().replace(/[^a-z]/g, '');
       if (normalized === 'preorder' || normalized === 'unreleased') return normalized;
     }
     return null;

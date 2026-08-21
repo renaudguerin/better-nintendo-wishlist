@@ -16,6 +16,9 @@
     const repaired = settings.repair(value);
     committedSettings = repaired;
     crossRegion.checked = repaired.showCrossRegion;
+    // A stored value from an earlier build can sit between the offered choices,
+    // and must stay selectable rather than silently resetting the dropdown.
+    addUrgencyChoice(repaired.saleUrgencyDays);
     saleUrgency.value = String(repaired.saleUrgencyDays);
     theme.value = repaired.theme;
     document.documentElement.dataset.theme = repaired.theme;
@@ -37,12 +40,16 @@
     }
   }
 
-  for (let days = 1; days <= 30; days++) {
+  function addUrgencyChoice(days) {
+    if (saleUrgency.querySelector(`option[value="${days}"]`)) return;
     const option = document.createElement('option');
     option.value = String(days);
     option.textContent = `${days} ${days === 1 ? 'day' : 'days'}`;
-    saleUrgency.appendChild(option);
+    const later = Array.from(saleUrgency.options).find((existing) => Number(existing.value) > days);
+    saleUrgency.insertBefore(option, later || null);
   }
+
+  for (const days of [1, 3, 7, 30]) addUrgencyChoice(days);
 
   crossRegion.addEventListener('change', () => {
     save({ showCrossRegion: crossRegion.checked });

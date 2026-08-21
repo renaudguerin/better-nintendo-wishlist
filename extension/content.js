@@ -97,7 +97,7 @@
   }
 
   function showLockNotice() {
-    lockNotice = 'Another wishlist operation is already in progress';
+    lockNotice = 'Please wait for the current wishlist action to finish';
     clearTimeout(lockNoticeTimer);
     lockNoticeTimer = setTimeout(() => {
       lockNotice = '';
@@ -269,8 +269,8 @@
       bulkDeleteBtn.style.display = selectedVisibleCount > 0 ? '' : 'none';
       bulkDeleteBtn.disabled = isBulkDeleting || loadStatus.partial;
       bulkDeleteBtn.textContent = selectedVisibleCount > 0
-        ? `Delete Selected (${selectedVisibleCount})`
-        : 'Delete Selected';
+        ? `Remove selected (${selectedVisibleCount})`
+        : 'Remove selected';
     }
 
     renderStatus();
@@ -287,7 +287,7 @@
       let confirmMessage = `Remove ${ids.length} selected ${label} from your wishlist?`;
       if (selection.hiddenSelectedCount > 0) {
         const hiddenLabel = selection.hiddenSelectedCount === 1 ? 'item is' : 'items are';
-        confirmMessage += `\n\n${selection.hiddenSelectedCount} other selected ${hiddenLabel} filtered out and will not be deleted.`;
+        confirmMessage += `\n\n${selection.hiddenSelectedCount} other selected ${hiddenLabel} filtered out and will not be removed.`;
       }
       if (!confirm(confirmMessage)) return;
 
@@ -300,7 +300,7 @@
       try {
         for (let i = 0; i < ids.length; i++) {
           const id = ids[i];
-          updateStatus(`Deleting ${i + 1}/${ids.length} selected items...`);
+          updateStatus(`Removing ${i + 1} of ${ids.length} selected items…`);
 
           const node = domNodes.get(id);
           const deleteBtn = node && node.querySelector('.nwm-delete-btn');
@@ -342,7 +342,7 @@
           .map((failure) => `${failure.id}: ${failure.message}`)
           .join('\n');
         const suffix = failures.length > 3 ? `\n...and ${failures.length - 3} more.` : '';
-        alert(`Removed ${deleted}/${ids.length} selected items. ${failures.length} ${failedLabel} failed to delete.\n${details}${suffix}`);
+        alert(`Removed ${deleted} of ${ids.length} selected items. ${failures.length} ${failedLabel} could not be removed.\n${details}${suffix}`);
       }
     });
   }
@@ -455,13 +455,21 @@
       throw new Error('Adapter returned invalid managed native nodes');
     }
 
-    const nodes = [...returnedNodes];
-    for (const node of nodes) {
+    const nodes = [];
+    for (const node of returnedNodes) {
       if (!node || node.nodeType !== 1 ||
-          (!targetSection.contains(node) && !policyRoot.contains(node)) ||
-          isExtensionNode(node)) {
+          (!targetSection.contains(node) && !policyRoot.contains(node))) {
         throw new Error('Adapter returned an invalid managed native node');
       }
+      // Hiding a node that encloses our own UI would blank the page. If a
+      // storefront reshuffles its DOM into that shape, leave the native
+      // furniture visible rather than trading a duplicate heading for a
+      // blank one.
+      if (isExtensionNode(node)) {
+        console.warn('[NWM] Skipping managed native node that encloses extension UI:', node);
+        continue;
+      }
+      nodes.push(node);
     }
     return [...new Set(nodes)];
   }
@@ -734,7 +742,7 @@
       }
       if (isUnreleased) {
         badgeRow.appendChild(createMetaPair([
-          createStatusBadge('UNRELEASED', '#888'),
+          createStatusBadge('UPCOMING', '#888'),
           createReleaseDateLabel(item.releaseDate),
         ]));
         appendMetadataBadges(badgeRow, item);
@@ -782,7 +790,7 @@
         ]));
       } else if (isUnreleased) {
         badgeRow.appendChild(createMetaPair([
-          createStatusBadge('UNRELEASED', '#888'),
+          createStatusBadge('UPCOMING', '#888'),
           createReleaseDateLabel(item.releaseDate),
         ]));
       }
@@ -832,7 +840,7 @@
       ]));
     } else if (isUnreleased) {
       badgeRow.appendChild(createMetaPair([
-        createStatusBadge('UNRELEASED', '#888'),
+        createStatusBadge('UPCOMING', '#888'),
         createReleaseDateLabel(item.releaseDate),
       ]));
     }
@@ -868,7 +876,7 @@
       const row = createEl('div', { className: 'nwm-item-row' });
       const imageWrap = createEl('div', { className: 'nwm-item-media' });
       const image = createEl('img', {
-        attrs: { alt: item.imageUrl ? item.name : 'No Images', loading: 'lazy' },
+        attrs: { alt: item.imageUrl ? item.name : 'No image available', loading: 'lazy' },
         style: {
           background: '#f0f0f0',
           width: '220px',
@@ -904,7 +912,7 @@
         const unavailableCopy = item.resolutionStatus === 'complete-unresolved'
           ? 'No longer sold in checked regions'
           : item.resolutionStatus === 'partial'
-            ? 'Not available in your current region; the additional region check was incomplete'
+            ? 'Not available in your current region; the other-region check did not finish'
             : 'Not available in your current region, or no longer sold';
         details.appendChild(createEl('span', {
           className: 'nwm-unavailable-copy',
@@ -1032,7 +1040,7 @@
           console.error('[NWM] Delete failed:', err);
           btn.disabled = false;
           btn.style.opacity = '';
-          alert('Failed to remove item: ' + err.message);
+          alert('Could not remove this item. ' + err.message);
         }
       });
     };
@@ -1226,12 +1234,39 @@
   // ── Toolbar UI ─────────────────────────────────────────────────────────
 
   function syncSettingsControls() {
-    const crossRegion = document.getElementById('nwm-setting-cross-region');
-    const saleUrgency = document.getElementById('nwm-setting-sale-urgency');
     const theme = document.getElementById('nwm-setting-theme');
-    if (crossRegion) crossRegion.checked = globalSettings.showCrossRegion;
-    if (saleUrgency) saleUrgency.value = String(globalSettings.saleUrgencyDays);
     if (theme) theme.value = globalSettings.theme;
+  }
+
+  // Content scripts cannot call chrome.runtime.openOptionsPage, so the page is
+  // opened as a web-accessible resource instead. Chrome's own entry point sits
+  // in chrome://extensions, which nobody finds; this extension has no toolbar
+  // popup either, so without this link the options page is effectively hidden.
+  function optionsPageUrl() {
+    try {
+      const runtime = globalThis.chrome && globalThis.chrome.runtime;
+      const url = runtime && typeof runtime.getURL === 'function'
+        ? runtime.getURL('options.html')
+        : null;
+      return typeof url === 'string' && url.startsWith('chrome-extension://') ? url : null;
+    } catch (_err) {
+      return null;
+    }
+  }
+
+  function createOptionsPageLink() {
+    const url = optionsPageUrl();
+    if (!url) return null;
+    return createEl('a', {
+      className: 'nwm-settings-link',
+      text: 'More settings',
+      attrs: {
+        id: 'nwm-settings-options-link',
+        href: url,
+        target: '_blank',
+        rel: 'noopener noreferrer',
+      },
+    });
   }
 
   function applyTheme(rollback) {
@@ -1266,19 +1301,6 @@
     }
   }
 
-  function updateHeaderCount(visible, total) {
-    const count = document.getElementById('nwm-header-count');
-    if (!count) return;
-    if (loadStatus.partial) {
-      count.textContent = `${visible} visible / ${total} loaded (${loadStatus.reportedTotal} reported)`;
-      count.setAttribute('aria-label',
-        `${visible} visible of ${total} loaded wishlist items, ${loadStatus.reportedTotal} reported total`);
-    } else {
-      count.textContent = `${visible} visible / ${total} total`;
-      count.setAttribute('aria-label', `${visible} visible of ${total} total wishlist items`);
-    }
-  }
-
   async function persistHeaderSetting(patch) {
     const next = await settingsApi.update(patch);
     applyGlobalSettings(next);
@@ -1291,21 +1313,22 @@
       attrs: { id: 'nwm-header' },
     });
     const identity = createEl('div', { className: 'nwm-header-identity' });
-    identity.appendChild(createEl('div', {
+    identity.appendChild(createEl('a', {
       className: 'nwm-header-title',
       text: 'Better Wishlist for Nintendo eShop',
+      attrs: {
+        href: 'https://renaudguerin.github.io/better-nintendo-wishlist/',
+        target: '_blank',
+        rel: 'noopener noreferrer',
+        title: 'Open the project page in a new tab',
+      },
     }));
     identity.appendChild(createEl('div', {
       className: 'nwm-header-note',
-      text: 'Independent project; not affiliated with Nintendo.',
+      text: 'Independent extension. Not affiliated with Nintendo.',
     }));
 
     const actions = createEl('div', { className: 'nwm-header-actions' });
-    actions.appendChild(createEl('span', {
-      className: 'nwm-header-count',
-      text: 'Loading…',
-      attrs: { id: 'nwm-header-count', 'aria-live': 'polite' },
-    }));
 
     const settingsWrap = createEl('div', { className: 'nwm-settings-wrap' });
     const settingsButton = createEl('button', {
@@ -1330,34 +1353,6 @@
     });
     popover.hidden = true;
 
-    const urgencyLabel = createEl('label', {
-      className: 'nwm-settings-field',
-      text: 'Sale ending soon',
-      attrs: { for: 'nwm-setting-sale-urgency' },
-    });
-    const urgencySelect = createEl('select', {
-      attrs: { id: 'nwm-setting-sale-urgency' },
-    });
-    for (let days = 1; days <= 30; days++) {
-      urgencySelect.appendChild(createEl('option', {
-        text: `${days} ${days === 1 ? 'day' : 'days'}`,
-        attrs: { value: days },
-      }));
-    }
-    urgencyLabel.appendChild(urgencySelect);
-    let crossInput = null;
-    let crossLabel = null;
-    if (staticCapabilities.crossRegionResolution) {
-      crossLabel = createEl('label', {
-        className: 'nwm-settings-check',
-        attrs: { for: 'nwm-setting-cross-region' },
-      });
-      crossInput = createEl('input', {
-        attrs: { id: 'nwm-setting-cross-region', type: 'checkbox' },
-      });
-      crossLabel.appendChild(crossInput);
-      crossLabel.appendChild(createEl('span', { text: 'Show unavailable or other-region items' }));
-    }
     const themeLabel = createEl('label', {
       className: 'nwm-settings-field',
       text: 'Theme',
@@ -1370,7 +1365,7 @@
       themeSelect.appendChild(createEl('option', { text: label, attrs: { value } }));
     }
     themeLabel.appendChild(themeSelect);
-    appendChildren(popover, [crossLabel, urgencyLabel, themeLabel]);
+    appendChildren(popover, [themeLabel, createOptionsPageLink()]);
     appendChildren(settingsWrap, [settingsButton, popover]);
     actions.appendChild(settingsWrap);
     appendChildren(header, [identity, actions]);
@@ -1387,16 +1382,8 @@
       settingsButton.setAttribute('aria-expanded', String(opening));
       if (opening) {
         syncSettingsControls();
-        (crossInput || urgencySelect).focus();
+        themeSelect.focus();
       }
-    });
-    if (crossInput) {
-      crossInput.addEventListener('change', () => {
-        persistHeaderSetting({ showCrossRegion: crossInput.checked });
-      });
-    }
-    urgencySelect.addEventListener('change', () => {
-      persistHeaderSetting({ saleUrgencyDays: Number(urgencySelect.value) });
     });
     themeSelect.addEventListener('change', () => {
       persistHeaderSetting({ theme: themeSelect.value });
@@ -1427,7 +1414,7 @@
       attrs: {
         type: 'text',
         id: 'nwm-search',
-        placeholder: 'Search games... ( / )',
+        placeholder: 'Search games (/)',
         autocomplete: 'off',
       },
     }) : null;
@@ -1479,7 +1466,7 @@
     }
     const bulkDeleteBtn = capabilities.actions.bulkDelete ? createEl('button', {
       className: 'nwm-bulk-btn nwm-bulk-btn-danger',
-      text: 'Delete Selected',
+      text: 'Remove selected',
       attrs: {
         id: 'nwm-bulk-delete',
         type: 'button',
@@ -1543,7 +1530,7 @@
         'aria-live': 'polite',
         'aria-atomic': 'true',
       },
-      text: 'Loading...',
+      text: 'Loading…',
     }));
 
     const progressBar = createEl('div', {
@@ -1705,6 +1692,35 @@
     bar.classList.remove('nwm-progress-indeterminate');
   }
 
+  // Items go missing from the list for three unrelated reasons — an active
+  // filter, hidden cross-region rows, and a load that did not finish — and this
+  // line is the only place any of them is reported, so they share one phrasing.
+  function statusCountText() {
+    const all = `${allItemIds.length} items`;
+    if (!statusSummary) return all;
+    if (statusSummary.anyFilterActive) {
+      return `${statusSummary.visible} of ${statusSummary.visibilityScope} items shown`;
+    }
+    if (statusSummary.visibilityScope < statusSummary.total) {
+      return `${statusSummary.visibilityScope} of ${statusSummary.total} items shown`;
+    }
+    return all;
+  }
+
+  function appendStatusCounts(statusEl) {
+    const countText = statusCountText();
+    // A bare item count next to "Loaded 21 of 38" is the same number twice.
+    if (!loadStatus.partial || countText !== `${allItemIds.length} items`) {
+      appendStatusPart(statusEl, createEl('span', { className: 'nwm-count', text: countText }));
+    }
+    if (loadStatus.partial) {
+      appendStatusPart(statusEl, createEl('span', {
+        className: statusEl.querySelector('.nwm-count') ? '' : 'nwm-count',
+        text: `Loaded ${allItemIds.length} of ${loadStatus.reportedTotal}`,
+      }));
+    }
+  }
+
   function appendStatusPart(statusEl, content) {
     if (statusEl.childNodes.length > 0) {
       statusEl.appendChild(document.createTextNode(' · '));
@@ -1805,18 +1821,7 @@
           `Loaded ${allItemIds.length} of ${loadStatus.reportedTotal}`);
       }
     } else if (statusSummary && statusSummary.anyFilterActive) {
-      statusEl.appendChild(document.createTextNode('Showing '));
-      statusEl.appendChild(createEl('span', {
-        className: 'nwm-count',
-        text: String(statusSummary.visible),
-      }));
-      statusEl.appendChild(document.createTextNode(
-        ` of ${statusSummary.visibilityScope} visible items`,
-      ));
-      if (loadStatus.partial) {
-        appendStatusPart(statusEl,
-          `Loaded ${allItemIds.length} of ${loadStatus.reportedTotal}`);
-      }
+      appendStatusCounts(statusEl);
       if (statusSummary.saleVisible > 0) {
         appendStatusPart(statusEl, createEl('span', {
           className: 'nwm-sale-count',
@@ -1831,15 +1836,7 @@
         }
       }
 
-      const countText = statusSummary && statusSummary.visibilityScope < statusSummary.total
-        ? `${statusSummary.visibilityScope} visible of ${statusSummary.total} items`
-        : `${allItemIds.length} items`;
-      statusEl.appendChild(createEl('span', {
-        className: 'nwm-count',
-        text: loadStatus.partial
-          ? `Loaded ${allItemIds.length} of ${loadStatus.reportedTotal}`
-          : countText,
-      }));
+      appendStatusCounts(statusEl);
 
       if (saleCount > 0) {
         if (capabilities.filters.onSale) {
@@ -1888,8 +1885,9 @@
 
     const selection = NWM.getVisibleSelection(getVisibleSelectableItemIds(), selectedIds);
     if (selection.hiddenSelectedCount > 0) {
-      appendStatusPart(statusEl,
-        `${selection.hiddenSelectedCount} selected items are filtered out`);
+      appendStatusPart(statusEl, selection.hiddenSelectedCount === 1
+        ? '1 selected item is filtered out'
+        : `${selection.hiddenSelectedCount} selected items are filtered out`);
     }
 
     if (lockNotice) {
@@ -1915,7 +1913,6 @@
         filters.search || filters.onSale || filters.platform !== 'all' ||
         filters.contentType !== 'all'),
     };
-    updateHeaderCount(visible, total);
     statusOverride = null;
     renderStatus();
   }
@@ -1925,7 +1922,7 @@
       if (!hasCommittedSnapshot || isLoading) return;
 
       isLoading = true;
-      updateStatus('Loading wishlist...');
+      updateStatus('Loading wishlist…');
       showLoadingProgress();
 
       try {
@@ -1938,7 +1935,8 @@
         console.warn('[NWM] Wishlist refresh failed:', message);
         isLoading = false;
         hideLoadingProgress();
-        updateStatus(`Failed to load wishlist: ${message}`, true, refreshCommittedSnapshot);
+        updateStatus(`Could not refresh your wishlist. ${message}`, true,
+          refreshCommittedSnapshot);
       }
     });
   }
@@ -1968,7 +1966,7 @@
     mount.parent.insertBefore(shell, mount.before);
     toolbarEl = shell;
     sectionEl = targetSection;
-    updateStatus(`Failed to load wishlist: ${message}`, true, init);
+    updateStatus(`Could not load your wishlist. ${message}`, true, init);
   }
 
   async function bootstrapFromTop() {
@@ -1993,7 +1991,7 @@
 
       createToolbar(rollback);
       isLoading = true;
-      updateStatus('Loading wishlist...');
+      updateStatus('Loading wishlist…');
       showLoadingProgress();
 
       if (!settingsLoaded) {
@@ -2016,7 +2014,7 @@
         const message = postCommitError instanceof Error
           ? postCommitError.message
           : String(postCommitError);
-        updateStatus(`Wishlist loaded, but the view could not be finalized: ${message}`, true,
+        updateStatus(`Your wishlist loaded, but the extension could not finish updating the view. ${message}`, true,
           refreshCommittedSnapshot);
       }
     } catch (err) {

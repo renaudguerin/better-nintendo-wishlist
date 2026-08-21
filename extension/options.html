@@ -13,7 +13,7 @@
     <header>
       <p class="eyebrow">Extension options</p>
       <h1>Better Wishlist for Nintendo eShop</h1>
-      <p class="lede">Choose how wishlist items and sale timing appear.</p>
+      <p class="lede">Choose what appears in your wishlist and when a sale counts as ending soon.</p>
     </header>
 
     <section aria-labelledby="settings-heading">
@@ -22,7 +22,7 @@
         <input id="show-cross-region" type="checkbox">
         <span>
           <strong>Show unavailable or other-region items</strong>
-          <small>Where supported, the extension checks a bounded set of regional Nintendo catalogues.</small>
+          <small>On European wishlists, check up to three other Nintendo catalogues for unavailable games.</small>
         </span>
       </label>
       <label class="field-row" for="sale-urgency-days">
@@ -48,8 +48,9 @@
 
     <section aria-labelledby="privacy-heading">
       <h2 id="privacy-heading">Privacy</h2>
-      <p>This extension has no telemetry and no background processing.</p>
-      <p>It reads wishlist and catalogue information from Nintendo to display your wishlist. On US pages, it reads existing Nintendo sign-in/session information from the Nintendo page only to authenticate wishlist requests sent to Nintendo; it does not copy or persist that information in extension settings or send it to the developer. On supported Europe and US pages, when you confirm a removal, it sends that wishlist removal to Nintendo. When you choose a Review search, the item title and platform are sent to Google Search. Choosing the project link below navigates to GitHub.</p>
+      <p>The extension has no analytics, telemetry, or background worker. Your settings stay in your browser.</p>
+      <p>It reads wishlist and catalogue information from Nintendo to display your games. On both supported storefronts, it uses the Nintendo sign-in session already open in the page to authenticate requests to Nintendo. It does not save that session in the extension or send it to the developer.</p>
+      <p>When you confirm a removal, the extension sends the request to Nintendo. Choosing Search reviews opens Google Search with the game title and, when known, the platform. The project link below opens GitHub.</p>
     </section>
 
     <section aria-labelledby="about-heading">
@@ -57,6 +58,7 @@
       <p>Version <span id="extension-version">unknown</span></p>
       <p><a id="project-link" href="https://github.com/renaudguerin/better-nintendo-wishlist">View the public project on GitHub</a></p>
       <p class="legal">This is an independent project and is not affiliated with, endorsed by, or sponsored by Nintendo. Nintendo and Nintendo eShop are trademarks of Nintendo.</p>
+      <p class="legal">Heart icons created by <a href="https://www.flaticon.com/free-icons/heart" title="heart icons">frelayasia - Flaticon</a>.</p>
     </section>
   </main>
 </body>

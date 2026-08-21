@@ -198,13 +198,20 @@
       node.textContent.trim() === 'Wish List');
   }
 
+  function wishListHeadings(root) {
+    if (!root) return [];
+    return Array.from(root.querySelectorAll('h1')).filter((heading) =>
+      heading.textContent.trim() === 'Wish List' && heading.closest(ROOT_SELECTOR) === root);
+  }
+
+  function containsNativeWishlist(node) {
+    return Boolean(node.querySelector(`${OPTIONS_SELECTOR}, ${LIST_SELECTOR}`));
+  }
+
   function topLevelHeadingContainers(root) {
     if (!root) return [];
     const containers = new Set();
-    for (const heading of root.querySelectorAll('h1')) {
-      if (heading.textContent.trim() !== 'Wish List' || heading.closest(ROOT_SELECTOR) !== root) {
-        continue;
-      }
+    for (const heading of wishListHeadings(root)) {
       let container = heading;
       while (container.parentElement && container.parentElement !== root) {
         container = container.parentElement;
@@ -216,6 +223,24 @@
 
   function topLevelHeadingContainer(root) {
     return topLevelHeadingContainers(root)[0] || null;
+  }
+
+  // Hiding the native heading must never take the item list with it. Nintendo
+  // has shipped a layout where the heading and the list are separate children
+  // of the root, and one where a single wrapper holds both, so stop climbing as
+  // soon as the next ancestor would also cover the native controls or list.
+  function managedHeadingContainers(root) {
+    if (!root) return [];
+    const containers = new Set();
+    for (const heading of wishListHeadings(root)) {
+      let container = heading;
+      while (container.parentElement && container.parentElement !== root &&
+             !containsNativeWishlist(container.parentElement)) {
+        container = container.parentElement;
+      }
+      if (!containsNativeWishlist(container)) containers.add(container);
+    }
+    return [...containers];
   }
 
   function getMountPoint(section) {
@@ -237,7 +262,7 @@
     const root = section && (section.matches(ROOT_SELECTOR)
       ? section
       : section.closest(ROOT_SELECTOR));
-    return topLevelHeadingContainers(root);
+    return managedHeadingContainers(root);
   }
 
   const nativePolicy = Object.freeze({
@@ -548,6 +573,32 @@
     return 'title';
   }
 
+  // `releaseDate` is padded to a full timestamp even when Nintendo only knows
+  // the year: a title announced for 2027 comes back as 2027-12-31T00:00:00.000Z
+  // with releaseDateDisplay "2027". The display string is the honest value and
+  // is null whenever the exact date is known, so it wins when it carries a
+  // shape `NWM.formatReleaseDate` understands. Anything else falls back rather
+  // than pushing an unknown vocabulary into the canonical date field.
+  function displayPrecisionDate(value) {
+    const display = nonEmptyString(value);
+    return display && /^\d{4}(?:-(?:0[1-9]|1[0-2]))?$/.test(display) ? display : null;
+  }
+
+  function mapReleaseDate(product) {
+    return displayPrecisionDate(product.releaseDateDisplay) || nullableDate(product.releaseDate);
+  }
+
+  // Pre-orders carry both "Pre-order" and "Coming soon" in `availability`, so
+  // the pre-order signal is checked first. "Coming soon" gates the unreleased
+  // branch on purpose: a delisted title also reports isPurchasable false with
+  // no prices, and must not be advertised as upcoming.
+  function mapSalesStatus(product, details) {
+    if (details && details.isPreorderable === true) return 'preorder';
+    const availability = Array.isArray(product.availability) ? product.availability : [];
+    if (availability.includes('Coming soon')) return 'unreleased';
+    return null;
+  }
+
   function mapWishlistItem(rawItem) {
     const identity = providerIdentity(rawItem);
     const product = rawItem.product;
@@ -574,9 +625,9 @@
       platformLabel: platform.label,
       contentType: mapContentType(identity.category, product),
       pricing: mapPricing(product),
-      releaseDate: nullableDate(product.releaseDate),
+      releaseDate: mapReleaseDate(product),
       addedAt: nullableDate(rawItem.createdAt),
-      salesStatus: null,
+      salesStatus: mapSalesStatus(product, details),
       owned: Boolean(details && details.isPurchased === true),
       isNew: false,
       isSpecialTrial: false,

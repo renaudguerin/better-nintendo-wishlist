@@ -29,11 +29,48 @@
     return `Ends ${end.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}`;
   }
 
+  /**
+   * Format a release date at the precision Nintendo actually published.
+   *
+   * Savanna's `releaseDateOnEshop` is variable precision: `2027` for a title
+   * announced without a month, `2026-10` for a month-only window, and a full
+   * `2026-10-22` once the day is set. Parsing a partial value with `new Date()`
+   * would silently invent 1 January, so each shape is formatted separately.
+   * Date-only values are built from local parts, because `new Date('2026-10-22')`
+   * is UTC midnight and renders as the previous day west of Greenwich.
+   */
   function formatReleaseDate(isoDate) {
     if (!isoDate) return '';
-    const release = new Date(isoDate);
-    if (isNaN(release.getTime())) return '';
-    return `Out ${release.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}`;
+    const value = String(isoDate);
+    const prefix = 'Out ';
+    const parts = value.match(/^(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?(?:$|T)/);
+
+    if (parts && !parts[2]) return `${prefix}${parts[1]}`;
+
+    // `new Date(2026, 12, 40)` rolls over into a real date, so every calendar
+    // component is checked back against the parsed input.
+    const localDate = (year, month, day) => {
+      const date = new Date(year, month - 1, day);
+      const isFaithful = date.getFullYear() === year &&
+        date.getMonth() === month - 1 &&
+        date.getDate() === day;
+      return isFaithful ? date : null;
+    };
+
+    if (parts && !parts[3]) {
+      const monthOnly = localDate(Number(parts[1]), Number(parts[2]), 1);
+      if (!monthOnly) return '';
+      return `${prefix}${monthOnly.toLocaleDateString(undefined, { month: 'long', year: 'numeric' })}`;
+    }
+
+    const release = parts && !value.includes('T')
+      ? localDate(Number(parts[1]), Number(parts[2]), Number(parts[3]))
+      : new Date(value);
+    if (!release || isNaN(release.getTime())) return '';
+    const options = release.getFullYear() === new Date().getFullYear()
+      ? { month: 'long', day: 'numeric' }
+      : { month: 'long', day: 'numeric', year: 'numeric' };
+    return `${prefix}${release.toLocaleDateString(undefined, options)}`;
   }
 
   /** Is this sale ending within SALE_END_URGENT_DAYS? */
