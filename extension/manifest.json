@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Better Wishlist for Nintendo eShop",
   "version": "1.0.0",
-  "description": "Search, filter, sort, and remove games from Nintendo eShop wishlists in Europe and the US.",
+  "description": "Manage your Nintendo eShop wishlist. See sales ending soon, DLCs, bundles, online reviews. Search, filter, sort and remove items.",
   "permissions": ["storage"],
   "options_ui": {
     "page": "options.html",

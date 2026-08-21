@@ -26,7 +26,7 @@
     if (isNaN(end.getTime())) return '';
     const now = new Date();
     if (end - now < 0) return 'Ended';
-    return `Ends ${end.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}`;
+    return `Ends ${end.toLocaleDateString(undefined, { month: 'long', day: 'numeric' })}`;
   }
 
   /**
