@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Better Wishlist for Nintendo eShop</title>
-<meta name="description" content="A Chrome extension that adds search, filters, sorting, and sale timing to your Nintendo eShop wishlist.">
+  <meta name="description" content="The wishlist tools you wish the eShop had. Search, filter, sort your Nintendo eShop wishlist, and catch sales before they end.">
 <style>
   :root {
     color-scheme: light dark;
@@ -41,19 +41,22 @@
   a { color: var(--link); }
   ul { padding-left: 1.25em; }
   li { margin: 9px 0; }
-  .status {
+  .store-badge {
     display: inline-block;
-    margin: 20px 0 0;
-    padding: 7px 13px;
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    background: var(--surface);
-    color: var(--muted);
-    font-size: 13.5px;
   }
-  table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 15px; }
-  th, td { padding: 10px 12px; border-bottom: 1px solid var(--border); text-align: left; }
-  th { color: var(--muted); font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .store-badge img {
+    display: block;
+    height: 56px;
+    width: auto;
+  }
+  .hero-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px 22px;
+    margin-top: 26px;
+  }
+  .hero-row .links { margin-top: 0; }
   code {
     padding: 1px 5px;
     border: 1px solid var(--border);
@@ -85,57 +88,65 @@
 <main>
   <header>
     <h1>Better Wishlist for Nintendo eShop</h1>
-    <p class="tagline">Search, filter, and sort your Nintendo eShop wishlist. Catch sales
-    before they end.</p>
-    <p class="status">Available on the Chrome Web Store</p>
+    <p class="tagline">The wishlist tools you wish the eShop had! Search, filter,
+    sort your games, and catch sales before they end.</p>
+    <div class="hero-row">
+      <a class="store-badge" href="https://chrome.google.com/webstore/detail/jlibjocfcijoaflpjmaibdehimjadpeg" target="_blank" rel="noopener noreferrer">
+        <img src="chrome-web-store-badge.png" alt="Available in the Chrome Web Store" width="340" height="96">
+      </a>
+      <div class="links">
+        <a href="https://github.com/renaudguerin/better-nintendo-wishlist">Source on GitHub</a>
+        <a href="https://github.com/renaudguerin/better-nintendo-wishlist/issues">Report a bug</a>
+      </div>
+    </div>
   </header>
 
-  <p>Nintendo&rsquo;s wishlist page gives you one long list and no way through it. Once
-  you&rsquo;ve saved a few dozen games, finding anything means scrolling and squinting. So does
-  spotting a sale before the price goes back up.</p>
+  <p>Nintendo&rsquo;s wishlist page is one long list with no way through it. Finding
+  anything means scrolling, and spotting a sale before it ends is pure luck.</p>
 
-  <p>This extension adds a management view to that page, on Nintendo&rsquo;s own
-  site. It uses the Nintendo account and wishlist already open in the page.</p>
+  <p>This extension fixes that, right on Nintendo&rsquo;s own site, using your existing
+  Nintendo sign-in: no separate account, nothing to set up.</p>
 
-  <h2>What you get</h2>
-  <ul>
-    <li><strong>Search</strong> by game title</li>
-    <li><strong>Filters</strong> for sale, platform, and content type: games, DLC, or bundles</li>
-    <li><strong>Sorting</strong> by name, price, discount, release date, date added, or sale
-      ending soonest, remembered per store</li>
-    <li><strong>Sale-ending warnings</strong>, with a window you choose</li>
-    <li><strong>Removal</strong> of one game or several at once, with confirmation each time</li>
-    <li><strong>Light, dark, or system theme</strong></li>
-  </ul>
+  <h2>Too many games, too little time?</h2>
+  <p>Load them all in one go, then search by name with results narrowing as you type.
+  Filter by current sales, platform (Switch or Switch&nbsp;2), and content type (games, DLC,
+  bundles like Deluxe editions). Once you&rsquo;ve picked what to drop, remove several items
+  in two clicks.</p>
 
-  <h2>Supported stores</h2>
-  <table>
-    <thead><tr><th>Store</th><th>Address</th></tr></thead>
-    <tbody>
-      <tr><td>Europe</td><td><code>ec.nintendo.com/my/wishlist</code></td></tr>
-      <tr><td>United States</td><td><code>nintendo.com/us/wish-list</code></td></tr>
-    </tbody>
-  </table>
+  <h2>In the mood for a spree?</h2>
+  <p>Sort by sales ending soonest, price, discount, newest release, or even oldest or
+  newest on your list. Not sure about a title? Search online reviews in one click.</p>
 
-  <h2>Privacy</h2>
-  <p>The extension has no analytics, telemetry, advertising, background worker, remote
-  code, or developer-operated server. Your settings stay in your browser. The
-  <code>storage</code> permission remembers those settings, and site access is limited to the
-  two addresses above.</p>
+  <h2>Browsing late at night, on a big screen?</h2>
+  <p>Dark mode and a responsive layout: see more of your list at once, two or three columns
+  side by side, easy on your eyes.</p>
+
+  <h2>Wishlists around the world?</h2>
+  <p>Works with both the European eShop (<code>ec.nintendo.com/my/wishlist</code>) and the
+  newer US wish list (<code>nintendo.com/us/wish-list</code>). Changed your Nintendo account
+  region at some point? If your wishlist mixes games from different store regions, you can
+  optionally view them all in one place, from the EU site.</p>
+
+  <h2>Privacy, briefly</h2>
+  <p>The extension reads your wishlist through the Nintendo sign-in already open in the
+  page, exactly like the eShop&rsquo;s original wishlist page. None of your data goes to the
+  developer or any third party. Your settings stay in your browser. Google Search opens
+  only when you click &ldquo;Search reviews&rdquo;.</p>
   <p><a href="privacy.html">Read the full privacy policy</a></p>
-
-  <h2>Links</h2>
-  <div class="links">
-    <a href="https://chrome.google.com/webstore/detail/jlibjocfcijoaflpjmaibdehimjadpeg">Install from the Chrome Web Store</a>
-    <a href="https://github.com/renaudguerin/better-nintendo-wishlist">Source on GitHub</a>
-    <a href="https://github.com/renaudguerin/better-nintendo-wishlist/issues">Report a bug</a>
-    <a href="https://ko-fi.com/renaudguerin" target="_blank" rel="noopener noreferrer">☕️ Buy me a coffee.</a>
-  </div>
 
   <footer>
     <p>Better Wishlist is an independent project and is not affiliated with, endorsed by,
     or sponsored by Nintendo. Nintendo and Nintendo eShop are trademarks of Nintendo.</p>
   </footer>
 </main>
+<script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
+<script>
+  kofiWidgetOverlay.draw('renaudguerin', {
+    'type': 'floating-chat',
+    'floating-chat.donateButton.text': 'Tip Me',
+    'floating-chat.donateButton.background-color': '#d9534f',
+    'floating-chat.donateButton.text-color': '#fff'
+  });
+</script>
 </body>
 </html>

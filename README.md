@@ -1,50 +1,53 @@
 # Better Wishlist for Nintendo eShop
 
-A Chrome extension that adds search, filters, sorting, sale timing, and easier removal to
-Nintendo's own wishlist page.
+The wishlist tools you wish the eShop had! Search, filter, and sort your games, catch
+sales before they end, and unclutter in a couple of clicks, right on Nintendo's own
+wishlist pages.
 
-> **Status:** live on the [Chrome Web Store](https://chrome.google.com/webstore/detail/jlibjocfcijoaflpjmaibdehimjadpeg).
+**[Install free from the Chrome Web Store](https://chrome.google.com/webstore/detail/jlibjocfcijoaflpjmaibdehimjadpeg)**
 
 ## What it does
 
-Nintendo's wishlist page gives you one long list and no way through it. Once you've saved a
-few dozen games, finding anything means scrolling and squinting. So does spotting a sale
-before the price goes back up.
+Nintendo gives you one long list and no way through it. Once you've saved a few dozen
+games, finding anything means scrolling and squinting, and good luck spotting a sale
+before the price goes back up. This extension tidies that same page into something you
+can actually use:
 
-This extension adds a management view to that page:
+- **Search** game titles as you type
+- **Filter** by current sale, platform (Switch / Switch 2), or content type (games, DLC,
+  bundles like Deluxe editions)
+- **Sort** by price, discount, release date, date added, or sales ending soonest. Sale
+  Ending Soon is the default, remembered separately for each store
+- **Spot sales about to end**, within a window you choose
+- **Unclutter in two clicks**: remove one game or several at once, always with a
+  confirmation first
+- **Read comfortably** with light, dark, or system theme, on a layout that adapts to your
+  screen
+- **Check reviews first** with a one-click search for any game, plus a safe link to its
+  store page
 
-- **Search** by game title
-- **Filter** by sale, platform (Switch / Switch 2), or content type (games, DLC, bundles)
-- **Sort** by name, price, discount, release date, date added, or sale ending soonest. Sale
-  Ending Soon is the default, and your choice is remembered per store
-- **Spot sales about to end**, with a window you configure
-- **Remove** one game or several at once, with confirmation each time
-- **Light, dark, or system theme**
-- **Quick links** to each game's store page and to a review search
+Changed your Nintendo account region at some point? On European wishlists there's also an
+optional view for items unavailable in your region. Foreign items are clearly labelled and
+never show a price or a store link that wouldn't apply to you.
 
-On European wishlists there is also an optional view for items unavailable in your region.
-Foreign items are clearly labelled and never show a price or a store link that wouldn't
-apply to you.
-
-## Supported stores
+## Where it works
 
 | Store | Address | Support |
 |---|---|---|
-| Europe | `ec.nintendo.com/my/wishlist` | Full, including removal |
+| Europe / UK | `ec.nintendo.com/my/wishlist` | Full, including removal |
 | United States | `nintendo.com/us/wish-list` | Full, including removal |
 
-Other regions are not supported yet.
+Other regions aren't supported yet — they might work, but they're untested.
 
 ## Privacy
 
 **[Read the full privacy policy](https://renaudguerin.github.io/better-nintendo-wishlist/privacy.html)**
 
-The extension has no analytics, telemetry, advertising, background worker, remote code,
-or developer-operated server. Your settings stay in your browser. It talks to Nintendo to
-show and manage your wishlist, and to nothing else unless you click a link.
-
-The `storage` permission remembers your settings. Site access is limited to the two Nintendo
-wishlist addresses above.
+The extension reads your wishlist through the Nintendo sign-in already open in the page,
+exactly like the eShop's original wishlist. None of your data goes to the developer or any
+third party. Your settings stay in your browser — the `storage` permission remembers them —
+and site access is limited to the two addresses above. Google Search opens only when you
+click "Search reviews".
 
 ## Running it from source
 
