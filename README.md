@@ -1,17 +1,15 @@
 # Better Wishlist for Nintendo eShop
 
-The wishlist tools you wish the eShop had! Search, filter, and sort your games, catch
+The wishlist tools you wish the eShop had! Search, filter, and sort your wishlisted games, catch
 sales before they end, and unclutter in a couple of clicks, right on Nintendo's own
-wishlist pages.
+wishlist page.
 
-**[Install free from the Chrome Web Store](https://chrome.google.com/webstore/detail/jlibjocfcijoaflpjmaibdehimjadpeg)**
+**[Install free from the Chrome Web Store](https://chrome.google.com/webstore/detail/jlibjocfcijoaflpjmaibdehimjadpeg) - [☕️ Buy me a coffee.](https://ko-fi.com/renaudguerin)**
 
 ## What it does
 
 Nintendo gives you one long list and no way through it. Once you've saved a few dozen
-games, finding anything means scrolling and squinting, and good luck spotting a sale
-before the price goes back up. This extension tidies that same page into something you
-can actually use:
+games, finding anything means scrolling and squinting, and no way to prioritize sales ending soon. This extension tidies that same page into something much more convenient :
 
 - **Search** game titles as you type
 - **Filter** by current sale, platform (Switch / Switch 2), or content type (games, DLC,
@@ -26,7 +24,7 @@ can actually use:
 - **Check reviews first** with a one-click search for any game, plus a safe link to its
   store page
 
-Changed your Nintendo account region at some point? On European wishlists there's also an
+Changed your Nintendo account region at some point? On the European wishlist page there's also an
 optional view for items unavailable in your region. Foreign items are clearly labelled and
 never show a price or a store link that wouldn't apply to you.
 
@@ -58,7 +56,7 @@ The `extension/` directory is the complete, loadable extension.
 3. Click **Load unpacked** and select the `extension/` directory
 4. Open your Nintendo wishlist
 
-## Support and bug reports
+## Support, bug reports and suggestions
 
 Please [open an issue](https://github.com/renaudguerin/better-nintendo-wishlist/issues).
 It is the fastest way to reach me, and other people with the same problem can find the
@@ -69,11 +67,9 @@ your wishlist, and what you expected to happen.
 
 ## About this repository
 
-This repository holds the released extension source and the privacy policy. Development
-history, design documents, and tests live in a separate private repository for now.
+This repository holds the released extension source and the privacy policy.
 
-All features are free. If you'd like to support development,
-[☕️ Buy me a coffee.](https://ko-fi.com/renaudguerin)
+If you'd like to support development, [☕️ Buy me a coffee.](https://ko-fi.com/renaudguerin)
 
 ## Disclaimer
 
