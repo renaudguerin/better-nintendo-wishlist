@@ -1317,10 +1317,10 @@
       className: 'nwm-header-title',
       text: 'Better Wishlist for Nintendo eShop',
       attrs: {
-        href: 'https://renaudguerin.github.io/better-nintendo-wishlist/',
+        href: 'https://chrome.google.com/webstore/detail/jlibjocfcijoaflpjmaibdehimjadpeg',
         target: '_blank',
         rel: 'noopener noreferrer',
-        title: 'Open the project page in a new tab',
+        title: 'Open the Chrome Web Store listing in a new tab',
       },
     }));
     const note = createEl('div', { className: 'nwm-header-note' });

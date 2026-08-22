@@ -3,8 +3,7 @@
 A Chrome extension that adds search, filters, sorting, sale timing, and easier removal to
 Nintendo's own wishlist page.
 
-> **Status:** preparing for the Chrome Web Store. This page will link to the listing once it
-> is published.
+> **Status:** live on the [Chrome Web Store](https://chrome.google.com/webstore/detail/jlibjocfcijoaflpjmaibdehimjadpeg).
 
 ## What it does
 
