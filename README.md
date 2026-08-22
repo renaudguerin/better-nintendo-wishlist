@@ -70,7 +70,8 @@ your wishlist, and what you expected to happen.
 This repository holds the released extension source and the privacy policy. Development
 history, design documents, and tests live in a separate private repository for now.
 
-All features are free.
+All features are free. If you'd like to support development,
+[☕️ Buy me a coffee.](https://ko-fi.com/renaudguerin)
 
 ## Disclaimer
 

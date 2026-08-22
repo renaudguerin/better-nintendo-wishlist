@@ -141,6 +141,23 @@
   line-height: 1.35;
 }
 
+.nwm-header-donate {
+  color: var(--nwm-text, #20242a);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.nwm-header-donate:hover,
+.nwm-header-donate:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.nwm-header-donate:focus-visible {
+  outline: 3px solid #7c91ad;
+  outline-offset: 2px;
+}
+
 .nwm-header-actions {
   display: flex;
   flex: 0 0 auto;

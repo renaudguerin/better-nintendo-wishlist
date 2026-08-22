@@ -1323,10 +1323,21 @@
         title: 'Open the project page in a new tab',
       },
     }));
-    identity.appendChild(createEl('div', {
-      className: 'nwm-header-note',
-      text: 'Independent extension. Not affiliated with Nintendo.',
-    }));
+    const note = createEl('div', { className: 'nwm-header-note' });
+    appendChildren(note, [
+      document.createTextNode('Not affiliated with Nintendo. '),
+      createEl('a', {
+        className: 'nwm-header-donate',
+        text: '☕️ Buy me a coffee.',
+        attrs: {
+          href: 'https://ko-fi.com/renaudguerin',
+          target: '_blank',
+          rel: 'noopener noreferrer',
+          title: 'Support the project on Ko-fi (opens in a new tab)',
+        },
+      }),
+    ]);
+    identity.appendChild(note);
 
     const actions = createEl('div', { className: 'nwm-header-actions' });
 
