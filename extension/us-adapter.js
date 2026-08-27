@@ -1,6 +1,6 @@
 /**
- * Better Wishlist for Nintendo eShop — United States Adapter
- * Reads and manages Nintendo's authenticated US wishlist through the canonical adapter model.
+ * Better Wishlist for Nintendo eShop — Americas Adapter
+ * The stable `us` adapter ID serves Nintendo's shared Americas storefront.
  */
 (function () {
   'use strict';
@@ -63,13 +63,46 @@
   }
 }`;
 
+  // Verified URL-to-GraphQL mappings take precedence over the conventional
+  // ll-cc -> ll_CC inference used for storefronts Nintendo may migrate later.
+  const STOREFRONT_LOCALES = Object.freeze({
+    us: 'en_US',
+    'en-ca': 'en_CA',
+    'fr-ca': 'fr_CA',
+    'es-mx': 'es_MX',
+    'pt-br': 'pt_BR',
+    'es-ar': 'es_AR',
+    'es-cl': 'es_CL',
+    'es-co': 'es_CO',
+    'es-pe': 'es_PE',
+  });
+
+  function storefrontFor(locationLike) {
+    if (!locationLike || locationLike.origin !== 'https://www.nintendo.com') return null;
+    const match = /^\/(us|[a-z]{2}-[a-z]{2})\/wish-list\/?$/.exec(locationLike.pathname);
+    if (!match) return null;
+    const pathLocale = match[1];
+    const [urlLanguage, urlCountry] = pathLocale.split('-');
+    const graphLocale = STOREFRONT_LOCALES[pathLocale] ||
+      `${urlLanguage}_${urlCountry.toUpperCase()}`;
+    const [language, country] = graphLocale.split('_');
+    return { pathLocale, graphLocale, language, country, locale: `${language}-${country}` };
+  }
+
   function matchesUs(locationLike) {
-    return Boolean(locationLike) &&
-      locationLike.origin === 'https://www.nintendo.com' &&
-      locationLike.pathname === '/us/wish-list/';
+    return storefrontFor(locationLike) !== null;
   }
 
   if (!NWMAdapters || !matchesUs(window.location)) return;
+  const storefront = storefrontFor(window.location);
+  // Empty lists lack the native controls, so retain a precise heading guard in
+  // each language shipped by the Americas app instead of accepting any h1.
+  const wishlistHeading = {
+    en: 'Wish List', es: 'Lista de deseos', fr: 'Liste des souhaits', pt: 'Lista de desejos',
+  }[storefront.language];
+  const comingSoonLabel = {
+    en: 'Coming soon', es: 'Próximos lanzamientos', fr: 'Bientôt offert', pt: 'Em breve',
+  }[storefront.language];
 
   class UsAdapterError extends Error {
     constructor(code, message, retryable) {
@@ -195,13 +228,13 @@
 
   function findWishListHeading(root) {
     return root && Array.from(root.querySelectorAll('h1')).find((node) =>
-      node.textContent.trim() === 'Wish List');
+      node.textContent.trim() === wishlistHeading);
   }
 
   function wishListHeadings(root) {
     if (!root) return [];
     return Array.from(root.querySelectorAll('h1')).filter((heading) =>
-      heading.textContent.trim() === 'Wish List' && heading.closest(ROOT_SELECTOR) === root);
+      heading.textContent.trim() === wishlistHeading && heading.closest(ROOT_SELECTOR) === root);
   }
 
   function containsNativeWishlist(node) {
@@ -295,7 +328,7 @@
       'x-access-token': auth.accessToken,
       'x-customer-token': auth.customerToken,
       'x-nintendo-graph': 'true',
-      locale: 'en-US',
+      locale: storefront.locale,
       'apollographql-client-name': 'ncom',
       'apollographql-client-version': '1.0.0',
     };
@@ -470,14 +503,14 @@
 
   function canonicalProviderIdentity(item) {
     if (!isObject(item) || item.canDelete !== true) {
-      throw adapterError('US_DELETE_INVALID', 'This US wishlist item cannot be removed.');
+      throw adapterError('US_DELETE_INVALID', 'This wishlist item cannot be removed.');
     }
     const key = nonEmptyString(item.id);
     const separator = key ? key.indexOf(':') : -1;
     const category = separator > 0 ? key.slice(0, separator) : null;
     const id = separator > 0 ? nonEmptyString(key.slice(separator + 1)) : null;
     if (!id || !['ESHOP_PRODUCT', 'NOA_PRODUCT'].includes(category)) {
-      throw adapterError('US_DELETE_INVALID', 'This US wishlist item cannot be removed.');
+      throw adapterError('US_DELETE_INVALID', 'This wishlist item cannot be removed.');
     }
     return { id, category, key: `${category}:${id}` };
   }
@@ -508,7 +541,7 @@
       query: REMOVE_WISHLIST_ITEM_MUTATION,
       variables: {
         item: { id: identity.id, category: identity.category },
-        locale: 'en_US',
+        locale: storefront.graphLocale,
       },
     }, (body) => validateRemovalBody(body, identity), true);
   }
@@ -539,7 +572,7 @@
     try {
       return {
         value,
-        formatted: new Intl.NumberFormat('en-US', { style: 'currency', currency: code }).format(value),
+        formatted: new Intl.NumberFormat(storefront.locale, { style: 'currency', currency: code }).format(value),
         currency: code,
       };
     } catch (_err) {
@@ -595,16 +628,17 @@
   function mapSalesStatus(product, details) {
     if (details && details.isPreorderable === true) return 'preorder';
     const availability = Array.isArray(product.availability) ? product.availability : [];
-    if (availability.includes('Coming soon')) return 'unreleased';
+    if (availability.includes('Coming soon') ||
+        (comingSoonLabel && availability.includes(comingSoonLabel))) return 'unreleased';
     return null;
   }
 
   function mapWishlistItem(rawItem) {
     const identity = providerIdentity(rawItem);
     const product = rawItem.product;
-    // The US graph returns other-region wishlist identities with product:null.
+    // The Americas graph returns other-region wishlist identities with product:null.
     // They carry no safe title/image metadata and must not become anonymous
-    // deletion candidates on the regional US wishlist surface.
+    // deletion candidates on the current regional wishlist surface.
     if (product === null) return null;
 
     const platform = mapPlatform(product.platform);
@@ -617,7 +651,7 @@
     return {
       id: identity.key,
       name: typeof product.name === 'string' ? product.name : '',
-      productUrl: urlKey ? `/store/products/${urlKey}/` : null,
+      productUrl: urlKey ? `/${storefront.pathLocale}/store/products/${urlKey}/` : null,
       imageUrl: publicId
         ? `https://assets.nintendo.com/image/upload/q_auto/f_auto/${publicId}`
         : null,
@@ -683,7 +717,7 @@
           items: regionalItems,
           total: regionalItems.length,
           partial: false,
-          context: { country: 'US', language: 'en' },
+          context: { country: storefront.country, language: storefront.language },
         };
         NWMAdapters.validateSnapshot(snapshot);
         return snapshot;

@@ -1,7 +1,7 @@
 /**
  * Better Wishlist for Nintendo eShop — Page Context Bridge
  * Keeps page-authenticated fetches in the page world while the main extension
- * logic stays in Chrome's isolated content-script world.
+ * logic stays in the browser's isolated content-script world.
  */
 (function () {
   'use strict';

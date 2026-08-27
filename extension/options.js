@@ -5,6 +5,16 @@
   const settings = globalThis.NWMSettings;
   if (!settings) return;
 
+  // Firefox has no published store listing yet. Keep its project link useful
+  // without sending Firefox users to a Chrome-only installation page.
+  if (window.location.protocol === 'moz-extension:') {
+    const storeLink = document.getElementById('store-link');
+    if (storeLink) {
+      storeLink.href = 'https://renaudguerin.github.io/better-nintendo-wishlist/';
+      storeLink.textContent = 'View the Better Wishlist project';
+    }
+  }
+
   const crossRegion = document.getElementById('show-cross-region');
   const saleUrgency = document.getElementById('sale-urgency-days');
   const theme = document.getElementById('theme');

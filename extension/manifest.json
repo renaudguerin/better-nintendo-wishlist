@@ -26,12 +26,20 @@
       "run_at": "document_idle"
     },
     {
-      "matches": ["https://www.nintendo.com/us/wish-list/*"],
+      "matches": ["https://www.nintendo.com/*/wish-list*"],
+      "include_globs": [
+        "https://www.nintendo.com/us/wish-list*",
+        "https://www.nintendo.com/??-??/wish-list*"
+      ],
       "css": ["content.css", "us-native.css"],
       "run_at": "document_idle"
     },
     {
-      "matches": ["https://www.nintendo.com/us/wish-list/*"],
+      "matches": ["https://www.nintendo.com/*/wish-list*"],
+      "include_globs": [
+        "https://www.nintendo.com/us/wish-list*",
+        "https://www.nintendo.com/??-??/wish-list*"
+      ],
       "js": ["shared.js", "settings.js", "adapter-core.js", "us-adapter.js", "content.js"],
       "run_at": "document_idle"
     }

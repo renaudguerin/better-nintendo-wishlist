@@ -71,7 +71,7 @@
 <main>
   <header>
     <h1>Privacy Policy</h1>
-    <p class="meta">Better Wishlist for Nintendo eShop &middot; Effective 12 August 2026</p>
+    <p class="meta">Better Wishlist for Nintendo eShop &middot; Effective 27 August 2026</p>
   </header>
 
   <p class="lede">The developer receives no personal data from the extension. It has no
@@ -88,7 +88,7 @@
   <p>On supported Nintendo wishlist pages, the extension reads your wishlist and the related
   catalogue information from Nintendo so it can display your list with search, filters, and
   sorting.</p>
-  <p>On both supported storefronts, it uses the sign-in session already open in the Nintendo
+  <p>On supported storefronts, it uses the sign-in session already open in the Nintendo
   page to authenticate wishlist requests sent to Nintendo. It does not persist session data
   in extension settings or send it to the developer.</p>
   <p>When you confirm a removal, the extension sends that removal to Nintendo, in the same
@@ -100,8 +100,17 @@
   when you click it.</p>
 
   <h3>Project links</h3>
-  <p>The extension header links to this project site. The options page links to the public
-  repository on GitHub. Neither link opens until you choose it.</p>
+  <p>The header and About link open the Chrome Web Store in Chrome or this project site in
+  Firefox. The options page also links to the public repository on GitHub. The optional
+  donation link opens Ko-fi. None of these links opens until you choose it.</p>
+
+  <h3>Firefox data declarations</h3>
+  <p>The desktop Firefox build declares authentication information, website content,
+  website activity, location information, and search terms. These refer to the Nintendo
+  session tokens, wishlist requests and confirmed removals, storefront country, and Google
+  review searches described above. The extension does not access GPS location, transmit
+  your local wishlist filter text, or send data to the developer. Firefox asks for consent
+  to these required transmissions when you install the signed extension.</p>
 
   <h2>What is stored on your device</h2>
   <p>The extension saves these settings in your browser:</p>
@@ -110,9 +119,10 @@
       <code>nwm_settings_v1_showCrossRegion</code>,
       <code>nwm_settings_v1_saleUrgencyDays</code>, and
       <code>nwm_settings_v1_theme</code>.</li>
-    <li>Your filter and sort choices are stored per store, in that store&rsquo;s own
+    <li>Your filter and sort choices are stored per site origin, in its own
       <code>localStorage</code>, under <code>nwm_preferences</code>. Because this storage is
-      tied to the site, your European and US preferences stay separate.</li>
+      tied to the site, Europe and the Americas stay separate; Americas locales on
+      <code>www.nintendo.com</code> share these preferences.</li>
   </ul>
   <p>The extension does not transmit these values to the developer or any third party.</p>
 

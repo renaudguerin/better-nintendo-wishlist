@@ -1238,17 +1238,16 @@
     if (theme) theme.value = globalSettings.theme;
   }
 
-  // Content scripts cannot call chrome.runtime.openOptionsPage, so the page is
-  // opened as a web-accessible resource instead. Chrome's own entry point sits
-  // in chrome://extensions, which nobody finds; this extension has no toolbar
-  // popup either, so without this link the options page is effectively hidden.
+  // Open the web-accessible options page directly from the content script.
+  // Both browsers expose runtime.getURL here; this extension has no toolbar popup.
   function optionsPageUrl() {
     try {
       const runtime = globalThis.chrome && globalThis.chrome.runtime;
       const url = runtime && typeof runtime.getURL === 'function'
         ? runtime.getURL('options.html')
         : null;
-      return typeof url === 'string' && url.startsWith('chrome-extension://') ? url : null;
+      return typeof url === 'string' && /^(?:chrome|moz)-extension:\/\/[^/]+\/options\.html$/.test(url)
+        ? url : null;
     } catch (_err) {
       return null;
     }
@@ -1308,6 +1307,7 @@
   }
 
   function createManagedHeader(rollback) {
+    const isFirefox = optionsPageUrl()?.startsWith('moz-extension://');
     const header = createEl('div', {
       className: 'nwm-header',
       attrs: { id: 'nwm-header' },
@@ -1317,10 +1317,14 @@
       className: 'nwm-header-title',
       text: 'Better Wishlist for Nintendo eShop',
       attrs: {
-        href: 'https://chrome.google.com/webstore/detail/jlibjocfcijoaflpjmaibdehimjadpeg',
+        href: isFirefox
+          ? 'https://renaudguerin.github.io/better-nintendo-wishlist/'
+          : 'https://chrome.google.com/webstore/detail/jlibjocfcijoaflpjmaibdehimjadpeg',
         target: '_blank',
         rel: 'noopener noreferrer',
-        title: 'Open the Chrome Web Store listing in a new tab',
+        title: isFirefox
+          ? 'Open the project website in a new tab'
+          : 'Open the Chrome Web Store listing in a new tab',
       },
     }));
     const note = createEl('div', { className: 'nwm-header-note' });
