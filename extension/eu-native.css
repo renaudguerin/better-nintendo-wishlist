@@ -1,14 +1,1 @@
-.nwm-booting .infinite-scroll-component__outerdiv,
-.nwm-booting .infinite-scroll-component,
-.nwm-booting ul.flex.flex-col,
-.nwm-booting div.border-b.border-black\/10.pb-2.text-base.text-default,
-.nwm-booting div.border-b.border-black.border-opacity-10.pt-4.pb-6:not(.nwm-item-managed),
-.nwm-booting li.border-b.border-black\/10:not(.nwm-item-managed),
-.nwm-managed-section .infinite-scroll-component__outerdiv,
-.nwm-managed-section .infinite-scroll-component,
-.nwm-managed-section ul.flex.flex-col,
-.nwm-managed-section div.border-b.border-black\/10.pb-2.text-base.text-default,
-.nwm-managed-section div.border-b.border-black.border-opacity-10.pt-4.pb-6:not(.nwm-item-managed),
-.nwm-managed-section li.border-b.border-black\/10:not(.nwm-item-managed) {
-  display: none !important;
-}
+.nwm-booting .infinite-scroll-component__outerdiv,.nwm-booting .infinite-scroll-component,.nwm-booting ul.flex.flex-col,.nwm-booting div.border-b.border-black\/10.pb-2.text-base.text-default,.nwm-booting div.border-b.border-black.border-opacity-10.pt-4.pb-6:not(.nwm-item-managed),.nwm-booting li.border-b.border-black\/10:not(.nwm-item-managed),.nwm-managed-section .infinite-scroll-component__outerdiv,.nwm-managed-section .infinite-scroll-component,.nwm-managed-section ul.flex.flex-col,.nwm-managed-section div.border-b.border-black\/10.pb-2.text-base.text-default,.nwm-managed-section div.border-b.border-black.border-opacity-10.pt-4.pb-6:not(.nwm-item-managed),.nwm-managed-section li.border-b.border-black\/10:not(.nwm-item-managed){display:none!important}

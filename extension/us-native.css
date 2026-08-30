@@ -1,8 +1,1 @@
-.nwm-booting [class*="LoggedInWishlist3_optionsContainer__"],
-.nwm-booting [class*="LoggedInWishlist3_optionsContainer__"] + ul,
-.nwm-booting [class*="LoggedInWishlist3_optionsContainer__"] + ul + span,
-.nwm-managed-section [class*="LoggedInWishlist3_optionsContainer__"],
-.nwm-managed-section [class*="LoggedInWishlist3_optionsContainer__"] + ul,
-.nwm-managed-section [class*="LoggedInWishlist3_optionsContainer__"] + ul + span {
-  display: none !important;
-}
+.nwm-booting [class*=LoggedInWishlist3_optionsContainer__],.nwm-booting [class*=LoggedInWishlist3_optionsContainer__]+ul,.nwm-booting [class*=LoggedInWishlist3_optionsContainer__]+ul+span,.nwm-managed-section [class*=LoggedInWishlist3_optionsContainer__],.nwm-managed-section [class*=LoggedInWishlist3_optionsContainer__]+ul,.nwm-managed-section [class*=LoggedInWishlist3_optionsContainer__]+ul+span{display:none!important}
