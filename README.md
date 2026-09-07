@@ -4,7 +4,13 @@ The wishlist tools you wish the eShop had! Search, filter, and sort your wishlis
 sales before they end, and unclutter in a couple of clicks, right on Nintendo's own
 wishlist page.
 
-**[Install free from the Chrome Web Store](https://chrome.google.com/webstore/detail/jlibjocfcijoaflpjmaibdehimjadpeg) - [☕️ Buy me a coffee.](https://ko-fi.com/renaudguerin)**
+**[Install free from the Chrome Web Store](https://chrome.google.com/webstore/detail/jlibjocfcijoaflpjmaibdehimjadpeg)**
+
+[![Get the add-on for Firefox](firefox-add-on-badge.png)](https://addons.mozilla.org/en-US/firefox/addon/better-wishlist-nintendo-eshop/)
+
+Also available free on [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/better-wishlist-nintendo-eshop/) for desktop Firefox **140 or later**.
+
+[☕️ Buy me a coffee.](https://ko-fi.com/renaudguerin)
 
 ## What it does
 
@@ -47,7 +53,7 @@ third party. Your settings stay in your browser — the `storage` permission rem
 and site access is limited to the two addresses above. Google Search opens only when you
 click "Search reviews".
 
-## Running it from source
+## Running it from source in Chrome
 
 The `extension/` directory is the complete, loadable extension.
 
