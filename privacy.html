@@ -108,7 +108,7 @@
   when you click it.</p>
 
   <h3>Project links</h3>
-  <p>The header and About link open the Chrome Web Store in Chrome or this project site in
+  <p>The header and About link open the Chrome Web Store in Chrome or Firefox Add-ons in
   Firefox. The options page also links to the public repository on GitHub. The optional
   donation link opens Ko-fi. None of these links opens until you choose it.</p>
 
@@ -132,11 +132,12 @@
       tied to the site, Europe and the Americas stay separate; Americas locales on
       <code>www.nintendo.com</code> share these preferences.</li>
   </ul>
-  <p>The extension does not transmit these values to the developer or any third party.</p>
+  <p>The extension does not transmit your preferences or extension settings to the
+  developer or any third party.</p>
 
   <h2>Permissions</h2>
   <p>The <code>storage</code> permission lets the extension remember your settings between
-  visits. Its site access is limited to the supported Nintendo wishlist addresses. It has no
+  visits. Its content scripts are scoped to Nintendo wishlist routes. The extension has no
   background worker and does not download or execute code from the internet.</p>
 
   <h2>Third parties</h2>

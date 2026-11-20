@@ -18,8 +18,10 @@ Nintendo gives you one long list and no way through it. Once you've saved a few 
 games, finding anything means scrolling and squinting, and no way to prioritize sales ending soon. This extension tidies that same page into something much more convenient :
 
 - **Search** game titles as you type
-- **Filter** by current sale, platform (Switch / Switch 2), or content type (games, DLC,
-  bundles like Deluxe editions)
+- **Filter** by current sale, free demo availability, platform (Switch / Switch 2), or
+  content type (games, DLC, and bundles like Deluxe editions)
+- **Spot free demos** on games that the current storefront lists with a demo. Combine
+  Free Demo and On Sale to find discounted games you can try first
 - **Sort** by price, discount, release date, date added, or sales ending soonest. Sale
   Ending Soon is the default, remembered separately for each store
 - **Spot sales about to end**, within a window you choose
@@ -40,18 +42,20 @@ never show a price or a store link that wouldn't apply to you.
 |---|---|---|
 | Europe / UK | `ec.nintendo.com/my/wishlist` | Full, including removal |
 | United States | `nintendo.com/us/wish-list` | Full, including removal |
+| Other Americas storefronts | `nintendo.com/ll-cc/wish-list`, such as `es-mx`, `fr-ca`, or `pt-br` | Same features where Nintendo uses the supported storefront |
 
-Other regions aren't supported yet — they might work, but they're untested.
+Mexico, French Canada, and Brazil were checked with a US account; local-account pricing and
+live removal have not been verified for every storefront. Other language/country routes
+are best effort and may need changes if Nintendo uses a different page or API.
 
 ## Privacy
 
 **[Read the full privacy policy](https://renaudguerin.github.io/better-nintendo-wishlist/privacy.html)**
 
-The extension reads your wishlist through the Nintendo sign-in already open in the page,
-exactly like the eShop's original wishlist. None of your data goes to the developer or any
-third party. Your settings stay in your browser — the `storage` permission remembers them —
-and site access is limited to the two addresses above. Google Search opens only when you
-click "Search reviews".
+The extension reads your wishlist through the Nintendo sign-in already open in the page.
+Wishlist requests go to Nintendo, not the developer. Your settings stay in your browser;
+the `storage` permission remembers extension settings. Google Search opens with the game
+title and, when known, platform only when you click "Search reviews".
 
 ## Running it from source in Chrome
 
@@ -68,12 +72,12 @@ Please [open an issue](https://github.com/renaudguerin/better-nintendo-wishlist/
 It is the fastest way to reach me, and other people with the same problem can find the
 answer too.
 
-When reporting a bug, include your region (Europe or US), roughly how many items are on
+When reporting a bug, include your storefront and country, roughly how many items are on
 your wishlist, and what you expected to happen.
 
 ## About this repository
 
-This repository holds the released extension source and the privacy policy.
+This generated repository holds the extension distribution files and the public site.
 
 If you'd like to support development, [☕️ Buy me a coffee.](https://ko-fi.com/renaudguerin)
 

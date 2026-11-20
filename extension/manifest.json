@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Better Wishlist for Nintendo eShop",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "Manage your Nintendo eShop wishlist. See sales ending soon, DLCs, bundles, online reviews. Search, filter, sort and remove items.",
   "permissions": ["storage"],
   "options_ui": {
