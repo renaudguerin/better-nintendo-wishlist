@@ -52,11 +52,11 @@
     }
     .site-header a { text-decoration: none; }
     .site-header a:hover { text-decoration: underline; }
-    .site-header nav { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; }
+    .site-header nav { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; }
     .site-header nav a { padding-block: .35rem; }
+    .site-header nav .ko-fi-button { display: inline-grid; min-block-size: 2.5rem; place-items: center; padding-block: 0; }
     .brand { display: flex; align-items: center; gap: .65rem; color: var(--text); font-weight: 700; }
     .brand img { display: block; }
-    .support { border: 1px solid var(--border); border-radius: .55rem; padding: .35rem .8rem; }
     main { max-inline-size: 72rem; margin-inline: auto; padding-block: clamp(2rem, 6vw, 5rem); }
     h1, h2 { line-height: 1.1; text-wrap: balance; }
     h1 { max-inline-size: 19ch; margin: 0; font-size: clamp(2.2rem, 1.5rem + 3.2vw, 4.9rem); letter-spacing: -.045em; }
@@ -83,6 +83,8 @@
     .feature p { margin: 0; color: var(--muted); }
     .details { max-inline-size: 60rem; }
     .details p { margin-block: 0 .7rem; color: var(--muted); }
+    .ko-fi-support { display: inline-block; max-inline-size: 100%; margin-block: .45rem; }
+    .ko-fi-support img { display: block; inline-size: 13rem; max-inline-size: 100%; block-size: auto; }
     .disclaimer { margin-block: 2rem 0; font-size: .875rem; }
     .site-footer {
       display: flex;
@@ -111,7 +113,9 @@
     <nav aria-label="Project">
       <a href="privacy.html">Privacy</a>
       <a href="https://github.com/renaudguerin/better-nintendo-wishlist/issues">Support</a>
-      <a class="support" href="https://ko-fi.com/renaudguerin">Support on Ko-fi</a>
+      <a class="ko-fi-button" href="https://ko-fi.com/renaudguerin">
+        <img src="ko-fi-button.avif" width="148" height="30" alt="Support me on Ko-fi">
+      </a>
     </nav>
   </header>
 
@@ -155,6 +159,11 @@
       <h2>Compatibility and privacy</h2>
       <p>Use your Nintendo account’s existing wishlist on the European eShop, the US site, or Americas storefronts such as Mexico, French Canada, and Brazil. Other Americas locales are supported on a best-effort basis. From Europe, you can also choose to view unavailable items from other regions.</p>
       <p>Nintendo supplies your wishlist and catalogue data. Your settings stay in your browser, and the developer receives no wishlist data. When you choose to search for reviews, Google Search opens with the game title and, when known, its platform. <a href="privacy.html">Read the privacy policy</a>.</p>
+      <p>
+        <a class="ko-fi-support" href="https://ko-fi.com/renaudguerin">
+          <img src="ko-fi-support.avif" width="672" height="356" loading="lazy" alt="Support me on Ko-fi">
+        </a>
+      </p>
       <p><a href="https://github.com/renaudguerin/better-nintendo-wishlist">View the project on GitHub</a></p>
       <p class="disclaimer">Better Wishlist is an independent project and is not affiliated with, endorsed by, or sponsored by Nintendo. Nintendo and Nintendo eShop are trademarks of Nintendo.</p>
     </section>
