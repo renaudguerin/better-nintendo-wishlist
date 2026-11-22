@@ -1,162 +1,168 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-GB">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Better Wishlist for Nintendo eShop</title>
-  <meta name="description" content="The wishlist tools you wish the eShop had. Search, filter, sort your Nintendo eShop wishlist, and catch sales before they end.">
-<style>
-  :root {
-    color-scheme: light dark;
-    --bg: #fbfbfc;
-    --surface: #fff;
-    --text: #1d2127;
-    --muted: #5c6675;
-    --border: #e0e4ea;
-    --link: #2f5480;
-  }
-  @media (prefers-color-scheme: dark) {
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Search, filter and sort your Nintendo eShop wishlist and catch sales before they end.">
+  <title>Better Wishlist for Nintendo eShop</title>
+  <link rel="icon" href="extension/icons/icon32.png" sizes="32x32">
+  <style>
     :root {
-      --bg: #12151a;
-      --surface: #191d24;
-      --text: #e9edf3;
-      --muted: #a3aebd;
-      --border: #2d353f;
-      --link: #93bdf0;
+      color-scheme: light dark;
+      --background: #faf7f7;
+      --surface: #fff;
+      --text: #271b1e;
+      --muted: #675960;
+      --border: #e8d8da;
+      --accent: #a52636;
+      --glow: #f9e4e6;
+      font-family: system-ui, sans-serif;
     }
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    padding: 0 20px 80px;
-    background: var(--bg);
-    color: var(--text);
-    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  }
-  main { max-width: 46rem; margin: 0 auto; }
-  header { padding: 72px 0 36px; }
-  h1 { margin: 0 0 12px; font-size: clamp(30px, 6vw, 44px); line-height: 1.1; letter-spacing: -0.02em; }
-  .tagline { margin: 0; font-size: 19px; color: var(--muted); }
-  h2 { margin: 44px 0 14px; font-size: 20px; }
-  a { color: var(--link); }
-  ul { padding-left: 1.25em; }
-  li { margin: 9px 0; }
-  .store-badge {
-    display: inline-block;
-  }
-  .store-badge img {
-    display: block;
-    height: 56px;
-    width: auto;
-  }
-  .hero-row {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 8px 22px;
-    margin-top: 26px;
-  }
-  .hero-row .links { margin-top: 0; }
-  code {
-    padding: 1px 5px;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    background: var(--surface);
-    font-size: 13.5px;
-  }
-  .links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
-  .links a {
-    padding: 10px 16px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    background: var(--surface);
-    text-decoration: none;
-    font-weight: 600;
-  }
-  .links a:hover { border-color: var(--link); }
-  .note { margin-top: 16px; color: var(--muted); font-size: 14px; }
-  footer {
-    margin-top: 60px;
-    padding-top: 24px;
-    border-top: 1px solid var(--border);
-    color: var(--muted);
-    font-size: 14px;
-  }
-</style>
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --background: #1c141a;
+        --surface: #2a1d24;
+        --text: #fff6f7;
+        --muted: #d4bdc4;
+        --border: #4b353f;
+        --accent: #ffb7c0;
+        --glow: #4a2635;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding-inline: clamp(1rem, 4vw, 3rem);
+      background: radial-gradient(ellipse at 22% 0%, var(--glow), transparent 44rem), var(--background);
+      color: var(--text);
+      line-height: 1.65;
+    }
+    a { color: var(--accent); text-underline-offset: .2em; }
+    a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+    .site-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: .75rem 1.5rem;
+      max-inline-size: 72rem;
+      margin-inline: auto;
+      padding-block: 1rem;
+      border-block-end: 1px solid var(--border);
+    }
+    .site-header a { text-decoration: none; }
+    .site-header a:hover { text-decoration: underline; }
+    .site-header nav { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; }
+    .site-header nav a { padding-block: .35rem; }
+    .brand { display: flex; align-items: center; gap: .65rem; color: var(--text); font-weight: 700; }
+    .brand img { display: block; }
+    .support { border: 1px solid var(--border); border-radius: .55rem; padding: .35rem .8rem; }
+    main { max-inline-size: 72rem; margin-inline: auto; padding-block: clamp(2rem, 6vw, 5rem); }
+    h1, h2 { line-height: 1.1; text-wrap: balance; }
+    h1 { max-inline-size: 19ch; margin: 0; font-size: clamp(2.2rem, 1.5rem + 3.2vw, 4.9rem); letter-spacing: -.045em; }
+    h2 { margin-block: 0 .75rem; font-size: 1.2rem; }
+    .intro { max-inline-size: 46rem; }
+    .intro .lead { margin-block: .8rem .25rem; font-size: clamp(1.2rem, 1rem + 1vw, 1.75rem); font-weight: 600; }
+    .intro .description { margin-block: 0; color: var(--muted); }
+    .store-links { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-block: 1.5rem .35rem; }
+    .store-links a { display: inline-block; border-radius: .4rem; }
+    .store-links img { display: block; inline-size: auto; max-inline-size: 100%; block-size: clamp(2.5rem, 12vw, 3.5rem); }
+    .availability { margin-block: .65rem 0; color: var(--muted); font-size: .875rem; }
+    .wishlist-preview { margin: 1.75rem 0 2.25rem; }
+    .wishlist-preview img {
+      display: block;
+      inline-size: 100%;
+      block-size: auto;
+      border: 1px solid var(--border);
+      border-radius: clamp(.6rem, 2vw, 1.15rem);
+      box-shadow: 0 .85rem 2rem rgb(39 13 24 / .14);
+    }
+    .wishlist-preview figcaption { margin-block-start: .75rem; color: var(--muted); font-size: .875rem; }
+    .features { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin-block-end: 2.5rem; }
+    .feature { padding: clamp(1rem, 2.5vw, 1.5rem); border: 1px solid var(--border); border-radius: .75rem; background: var(--surface); }
+    .feature p { margin: 0; color: var(--muted); }
+    .details { max-inline-size: 60rem; }
+    .details p { margin-block: 0 .7rem; color: var(--muted); }
+    .disclaimer { margin-block: 2rem 0; font-size: .875rem; }
+    .site-footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: .5rem 1.5rem;
+      max-inline-size: 72rem;
+      margin-inline: auto;
+      padding-block: 1rem 1.75rem;
+      border-block-start: 1px solid var(--border);
+      color: var(--muted);
+      font-size: .875rem;
+    }
+    .site-footer p { margin: 0; }
+    @media (max-width: 47rem) {
+      .features { grid-template-columns: minmax(0, 1fr); }
+    }
+  </style>
 </head>
 <body>
-<main>
-  <header>
-    <h1>Better Wishlist for Nintendo eShop</h1>
-    <p class="tagline">The wishlist tools you wish the eShop had!</p>
-    <p class="tagline">Search, filter, sort your wishlisted games, and catch sales ending soon.</p>
-    <div class="hero-row">
-      <a class="store-badge" href="https://chrome.google.com/webstore/detail/jlibjocfcijoaflpjmaibdehimjadpeg" target="_blank" rel="noopener noreferrer">
-        <img src="chrome-web-store-badge.png" alt="Available in the Chrome Web Store" width="340" height="96">
-      </a>
-      <!-- Official Mozilla badge: https://blog.mozilla.org/addons/2015/11/promote-your-add-ons-with-the-get-the-add-on-button/ -->
-      <a class="store-badge" href="https://addons.mozilla.org/en-US/firefox/addon/better-wishlist-nintendo-eshop/" target="_blank" rel="noopener noreferrer">
-        <img src="firefox-add-on-badge.png" alt="Get the add-on for Firefox" width="172" height="60">
-      </a>
-      <div class="links">
-        <a href="https://github.com/renaudguerin/better-nintendo-wishlist">GitHub page</a>
-        <a href="https://github.com/renaudguerin/better-nintendo-wishlist/issues">Bugs & suggestions</a>
-      </div>
-    </div>
-    <p class="note">Available for Chrome and desktop Firefox 140 or later.</p>
+  <header class="site-header">
+    <a class="brand" href="index.html">
+      <img src="extension/icons/icon48.png" width="40" height="40" alt="">
+      Better Wishlist
+    </a>
+    <nav aria-label="Project">
+      <a href="privacy.html">Privacy</a>
+      <a href="https://github.com/renaudguerin/better-nintendo-wishlist/issues">Support</a>
+      <a class="support" href="https://ko-fi.com/renaudguerin">Support on Ko-fi</a>
+    </nav>
   </header>
 
-  <p>Nintendo&rsquo;s wishlist page is one long list with no way through it. Finding
-  anything means scrolling, and spotting a sale before it ends is pure luck.</p>
+  <main>
+    <div class="intro">
+      <h1>Better Wishlist for Nintendo eShop</h1>
+      <p class="lead">Find games faster and catch sales before they end.</p>
+      <p class="description">A free extension for your existing Nintendo eShop wishlist, built for Chrome and desktop Firefox.</p>
+      <div class="store-links">
+        <a href="https://chrome.google.com/webstore/detail/jlibjocfcijoaflpjmaibdehimjadpeg">
+          <img src="chrome-web-store-badge.png" alt="Available in the Chrome Web Store" width="340" height="96">
+        </a>
+        <a href="https://addons.mozilla.org/en-US/firefox/addon/better-wishlist-nintendo-eshop/">
+          <img src="firefox-add-on-badge.png" alt="Get the add-on for Firefox" width="172" height="60">
+        </a>
+      </div>
+      <p class="availability">Desktop Firefox 140 or later is required.</p>
+    </div>
 
-  <p>Third party wishlist sites require maintaining a separate list.
-  You can't wishlist new games from your Switch and expect them to sync there.</p>
+    <figure class="wishlist-preview">
+      <img src="wishlist-preview.webp" width="1280" height="800" alt="Wishlist cards show game covers, discounts, sale end dates, and review search buttons.">
+      <figcaption>A sample Nintendo eShop wishlist sorted by sales ending soon.</figcaption>
+    </figure>
 
-  <p>This extension fixes all of that, right on Nintendo&rsquo;s website, using your
-  existing Nintendo wishlist: no separate account, nothing to set up or sync.</p>
+    <div class="features">
+      <section class="feature">
+        <h2>Find your next game</h2>
+        <p>Search by name and filter by sale, free demo, platform, or content type. Combine Free Demo and On Sale to find discounted games you can try first.</p>
+      </section>
+      <section class="feature">
+        <h2>Keep track of deals</h2>
+        <p>Sort by sales ending soon, price, discount, release date, or when you added a game. Search online reviews from a game card.</p>
+      </section>
+      <section class="feature">
+        <h2>Make room for more</h2>
+        <p>Select games you no longer want and confirm their removal together. The responsive layout and dark mode make larger lists easier to browse.</p>
+      </section>
+    </div>
 
-  <h2>Cluttered wishlist?</h2>
-  <p>Load it all in one go, then search by name with results narrowing as you type.
-  Filter by current sales, free demo availability, platform (Switch or Switch&nbsp;2),
-  or content type (games, DLC, and bundles like Deluxe editions). Combine Free Demo with
-  On Sale to find discounted games you can try first. Once you&rsquo;ve picked what to drop,
-  remove all selected items in two clicks.</p>
+    <section class="details">
+      <h2>Compatibility and privacy</h2>
+      <p>Use your Nintendo account’s existing wishlist on the European eShop, the US site, or Americas storefronts such as Mexico, French Canada, and Brazil. Other Americas locales are supported on a best-effort basis. From Europe, you can also choose to view unavailable items from other regions.</p>
+      <p>Nintendo supplies your wishlist and catalogue data. Your settings stay in your browser, and the developer receives no wishlist data. When you choose to search for reviews, Google Search opens with the game title and, when known, its platform. <a href="privacy.html">Read the privacy policy</a>.</p>
+      <p><a href="https://github.com/renaudguerin/better-nintendo-wishlist">View the project on GitHub</a></p>
+      <p class="disclaimer">Better Wishlist is an independent project and is not affiliated with, endorsed by, or sponsored by Nintendo. Nintendo and Nintendo eShop are trademarks of Nintendo.</p>
+    </section>
+  </main>
 
-  <h2>In the mood for new games?</h2>
-  <p>Sort by sales ending soonest, price, discount, newest release, or even oldest or
-  newest on your list. Not sure about a title? Search online reviews in one click.</p>
-
-  <h2>Browsing late at night, on a big screen?</h2>
-  <p>Dark mode and a responsive layout: see more of your list at once, two or three columns
-  side by side, easy on your eyes.</p>
-
-  <h2>Wishlists around the world?</h2>
-  <p>Works with the European eShop (<code>ec.nintendo.com/my/wishlist</code>), the US wish
-  list (<code>nintendo.com/us/wish-list</code>), and Americas storefronts such as Mexico,
-  French Canada, and Brazil. Other Americas locales are supported on a best-effort basis.
-  If your wishlist mixes games from different store regions, you can optionally view
-  unavailable items together from the European site.</p>
-
-  <h2>Privacy</h2>
-  <p>The extension accesses your wishlist through the Nintendo sign-in already open in the
-  page. Wishlist requests go to Nintendo, not the developer. Your settings stay in your
-  browser. Google Search opens with the game title and, when known, platform only when
-  you click &ldquo;Search reviews&rdquo;.</p>
-  <p><a href="privacy.html">Read the full privacy policy</a></p>
-
-  <footer>
-    <p>Better Wishlist is an independent project and is not affiliated with, endorsed by,
-    or sponsored by Nintendo. Nintendo and Nintendo eShop are trademarks of Nintendo.</p>
+  <footer class="site-footer">
+    <p>Made with ❤️ in London by <a href="https://renaudguerin.net">Renaud Guérin</a></p>
+    <p>Play on PlayStation too? Try <a href="https://renaudguerin.github.io/better-playstation-wishlist/">Better Wishlist for PlayStation Store</a>.</p>
   </footer>
-</main>
-<script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
-<script>
-  kofiWidgetOverlay.draw('renaudguerin', {
-    'type': 'floating-chat',
-    'floating-chat.donateButton.text': 'Tip Me',
-    'floating-chat.donateButton.background-color': '#d9534f',
-    'floating-chat.donateButton.text-color': '#fff'
-  });
-</script>
 </body>
 </html>
